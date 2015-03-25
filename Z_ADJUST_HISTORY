@@ -1,0 +1,20 @@
+*&---------------------------------------------------------------------*
+*& Report  Z_ADJUST_HISTORY
+*&
+*&---------------------------------------------------------------------*
+*&Z report to correct inconsistency caused by missing SAP Note 2049033.
+*&It should be used only by SAP or from SAP recommendation.
+*&RCORREA-18.03.2015
+*&---------------------------------------------------------------------*
+
+REPORT  Z_ADJUST_HISTORY.
+
+PARAMETERS: p_GUID like /xnfe/outbathist-GUID,
+            p_COUN like /xnfe/outbathist-HISTCOUNT,
+            p_PROC like /xnfe/outbathist-procstep.
+
+
+  DELETE FROM /xnfe/outbathist where GUID = p_GUID AND HISTCOUNT = p_COUN AND PROCSTEP = p_PROC.
+    IF sy-subrc = '0'.
+      WRITE: 'History entry successfully deleted'.
+    ENDIF.
